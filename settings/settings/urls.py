@@ -18,6 +18,6 @@ schema_view = get_schema_view(
 urlpatterns = i18n_patterns(
     path("admin/", admin.site.urls),
     path('', include('app.urls')),
-    path('docs/', schema_view.with_ui('swagger'), name='swagger-schema-ui'),
+    path('docs/', schema_view.with_ui('swagger'), name='schema-swagger-ui'),
     path('accounts/', include('allauth.urls'))
 )
