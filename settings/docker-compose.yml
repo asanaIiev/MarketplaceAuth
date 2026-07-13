@@ -1,0 +1,29 @@
+services:
+  api:
+    image: docker.io/asanaliev/marketplaceauth:latest
+    container_name: django_api
+    restart: always
+    command: gunicorn settings.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/app/static
+      - sqlite_data:/app/db_data
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: nginx_web_server
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - static_volume:/app/static
+    depends_on:
+      - api
+
+volumes:
+  static_volume:
+  sqlite_data:
